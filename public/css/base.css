@@ -1,0 +1,215 @@
+/* ============================================================
+   ACADEMIC DIARY — base.css
+   Design tokens, background scene, starfield, mascot, page shell
+   ============================================================ */
+
+:root{
+  /* -- base surfaces: deep twilight plum, sampled from her room -- */
+  --bg:#1b1330;
+  --bg-1:#150e26;
+  --bg-panel: rgba(46,34,72,0.56);
+  --bg-panel-2: rgba(34,24,56,0.7);
+  --bg-raised: rgba(58,44,88,0.55);
+
+  /* -- lines: warm gilded hairlines instead of cold cyan grid -- */
+  --border: rgba(233,196,146,0.16);
+  --border-soft: rgba(233,196,146,0.09);
+  --border-bright: rgba(240,206,150,0.4);
+
+  /* -- accents: starlight gold, nebula rose, dusk lavender -- */
+  --cyan:#eab568;        /* primary glow — warm starlight gold (kept var name for compatibility) */
+  --cyan-dim:#a9824c;
+  --blue:#93a8e0;        /* periwinkle */
+  --orange:#e0954a;      /* amber */
+  --yellow:#f0b86e;      /* bright gold — highlights / primary action */
+  --green:#93c6a0;       /* sage — success / saved */
+  --red:#e88a86;         /* soft warm coral — danger, never neon */
+  --purple:#bb92d8;      /* twilight lavender */
+
+  --text:#f7ecd9;
+  --text-dim:#c9bcd6;
+  --text-dimmer:#8b7ea3;
+
+  --font-display:'Fraunces', 'Georgia', serif;
+  --font-body:'Quicksand', sans-serif;
+  --font-mono:'Quicksand', sans-serif;
+  --font-script:'Caveat', cursive;
+  --radius:14px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-weight:500;
+  font-size:15px;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ============================================================
+   Background scene — her room, warmed, glowing, leaking downward
+   ============================================================ */
+.bg-scene{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  height:58vh; min-height:400px; max-height:620px;
+  overflow:hidden;
+}
+.bg-scene-img{
+  position:absolute; inset:-2%;
+  background-image:url('../assets/room.png');
+  background-size:cover;
+  background-position:center 38%;
+  filter:hue-rotate(18deg) saturate(1.05) brightness(0.46) contrast(0.98) blur(1px);
+  -webkit-mask-image:linear-gradient(180deg, black 0%, black 50%, transparent 94%);
+  mask-image:linear-gradient(180deg, black 0%, black 50%, transparent 94%);
+}
+/* her, standing large in her own room — part of the environment, not pasted on top */
+.hero-vega{
+  position:absolute; right:5%; bottom:0; height:88%;
+  animation:hero-float 9s ease-in-out infinite;
+  transform-origin:bottom center;
+}
+.hero-vega-img{
+  height:100%; width:auto; display:block;
+  filter:brightness(0.95) saturate(1.08) drop-shadow(0 22px 30px rgba(8,5,16,0.5)) drop-shadow(0 0 34px rgba(240,184,110,0.22));
+}
+@keyframes hero-float{
+  0%, 100%{ transform:translateY(0); }
+  50%{ transform:translateY(-10px); }
+}
+@media (max-width:1180px){ .hero-vega{ right:2%; height:92%; } }
+@media (max-width:760px){ .hero-vega{ right:-2%; height:88%; } }
+@media (max-width:520px){ .hero-vega{ right:-6%; height:80%; opacity:0.92; } }
+
+/* warm candle-glow wash over the scene, so it reads magical, not neon */
+.bg-scene-glow{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 15%, rgba(255,205,130,0.42), transparent 62%),
+    radial-gradient(ellipse 65% 55% at 20% 55%, rgba(232,135,156,0.26), transparent 65%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(120,80,150,0.3), transparent 70%),
+    linear-gradient(180deg, rgba(34,22,54,0.32) 0%, rgba(27,19,48,0.62) 65%, var(--bg) 100%);
+  mix-blend-mode:normal;
+}
+.bg-scene-fade{
+  position:absolute; left:0; right:0; bottom:0; height:40%;
+  background:linear-gradient(180deg, transparent, var(--bg) 92%);
+}
+
+/* base wash beneath everything — the scene's colour, continued */
+.bg-wash{
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(90,66,130,0.35), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 90%, rgba(232,135,156,0.08), transparent 60%),
+    linear-gradient(180deg, var(--bg-1) 0%, var(--bg) 100%);
+}
+
+.bg-vignette{
+  position:fixed; inset:0; z-index:1; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 40%, transparent 45%, rgba(14,9,26,0.42) 100%);
+}
+
+/* ============================================================
+   Starfield — small, warm, twinkling. Not too much.
+   ============================================================ */
+.bg-stars{
+  position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;
+}
+.bg-stars .star{
+  position:absolute;
+  border-radius:50%;
+  background:#fff3de;
+  box-shadow:0 0 4px 1px rgba(255,229,180,0.55);
+  opacity:0;
+  animation:twinkle var(--dur,4s) ease-in-out var(--delay,0s) infinite;
+}
+@keyframes twinkle{
+  0%, 100%{ opacity:0; transform:scale(0.7); }
+  50%{ opacity:var(--peak,0.75); transform:scale(1); }
+}
+@media (prefers-reduced-motion: reduce){
+  .bg-stars .star{ animation:none; opacity:0.35; }
+}
+
+/* ============================================================
+   Mascot — Vega, keeping watch, quietly alive
+   ============================================================ */
+.mascot-vega{
+  position:fixed; left:2px; bottom:0; z-index:2;
+  height:300px; pointer-events:none;
+  animation:mascot-float 7s ease-in-out infinite;
+  filter:drop-shadow(0 18px 26px rgba(10,6,20,0.45));
+  transform-origin:bottom center;
+}
+.mascot-img{
+  height:100%; width:auto; display:block;
+  filter:drop-shadow(0 0 26px rgba(240,184,110,0.28));
+}
+.mascot-glow{
+  position:absolute; left:50%; bottom:6%; width:230px; height:100px;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse, rgba(240,184,110,0.38), rgba(232,135,156,0.14) 55%, transparent 75%);
+  filter:blur(6px);
+  animation:glow-pulse 7s ease-in-out infinite;
+}
+.mascot-sparkle{
+  position:absolute; color:var(--yellow); text-shadow:0 0 8px rgba(240,184,110,0.8);
+  animation:twinkle 3.2s ease-in-out infinite;
+  font-size:14px;
+}
+.mascot-sparkle.s1{ top:8%; left:6%; animation-delay:.2s; font-size:16px; }
+.mascot-sparkle.s2{ top:22%; right:2%; animation-delay:1.4s; font-size:11px; color:var(--purple); }
+.mascot-sparkle.s3{ top:46%; left:-2%; animation-delay:2.3s; font-size:12px; color:#fff3de; }
+
+@keyframes mascot-float{
+  0%, 100%{ transform:translateY(0) rotate(0deg); }
+  50%{ transform:translateY(-14px) rotate(-1deg); }
+}
+@keyframes glow-pulse{
+  0%, 100%{ opacity:0.6; transform:translateX(-50%) scale(1); }
+  50%{ opacity:0.95; transform:translateX(-50%) scale(1.08); }
+}
+
+@media (max-width:1180px){
+  .mascot-vega{ height:220px; left:-2px; }
+}
+@media (max-width:760px){
+  .mascot-vega{ display:none; }
+}
+
+/* ===== scrollbars ===== */
+::-webkit-scrollbar{width:7px;height:7px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:6px;}
+::-webkit-scrollbar-thumb:hover{background:var(--cyan-dim);}
+
+/* ===== layout shell ===== */
+#app{
+  position:relative; z-index:3;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  min-height:100vh;
+}
+
+.hud-shell{
+  display:grid;
+  grid-template-columns:220px 1fr 320px;
+  gap:16px;
+  padding:16px;
+  align-items:start;
+}
+
+@media (max-width:1180px){
+  .hud-shell{grid-template-columns:76px 1fr; }
+  .right-rail{grid-column:1 / -1;grid-row:2;}
+}
+@media (max-width:760px){
+  .hud-shell{grid-template-columns:1fr; padding:12px; gap:12px;}
+  .left-rail{order:3;}
+  .right-rail{order:2;grid-column:auto;}
+  .center-col{order:1;}
+}

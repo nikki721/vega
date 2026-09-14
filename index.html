@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vega</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+<!-- ===== Background scene: her room, warmed and glowing, fading into the page ===== -->
+<div class="bg-scene" aria-hidden="true">
+  <div class="bg-scene-img"></div>
+  <div class="hero-vega">
+    <img src="assets/vega-hero.png" alt="" class="hero-vega-img">
+  </div>
+  <div class="bg-scene-glow"></div>
+  <div class="bg-scene-fade"></div>
+</div>
+<div class="bg-wash" aria-hidden="true"></div>
+<div class="bg-stars" id="bgStars" aria-hidden="true"></div>
+<div class="bg-vignette" aria-hidden="true"></div>
+
+<!-- ===== Vega, keeping watch from the corner ===== -->
+<div class="mascot-vega" aria-hidden="true">
+  <div class="mascot-glow"></div>
+  <img src="assets/vega.png" alt="" class="mascot-img">
+  <div class="mascot-sparkle s1">✦</div>
+  <div class="mascot-sparkle s2">✧</div>
+  <div class="mascot-sparkle s3">✦</div>
+</div>
+
+<!-- Shown only while the initial session check is in flight -->
+<div id="bootScreen" class="boot-screen">
+  <div class="boot-mark">✦</div>
+  <div class="boot-label">OPENING YOUR DIARY…</div>
+</div>
+
+<!-- Shown when there is no authenticated session -->
+<div id="authScreen" class="auth-screen" style="display:none;"></div>
+
+<!-- Shown only once authenticated and data has loaded -->
+<div id="app" style="display:none;"></div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
+

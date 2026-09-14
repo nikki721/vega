@@ -1,0 +1,107 @@
+/* ============================================================
+   ACADEMIC DIARY — auth.css
+   Login screen + boot/loading splash. Reuses the existing design
+   tokens from base.css — no new colors, fonts, or layout language.
+   ============================================================ */
+
+.boot-screen{
+  position:fixed; inset:0; z-index:50;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+  background:var(--bg);
+}
+.boot-mark{
+  font-size:30px; color:var(--yellow); text-shadow:0 0 16px rgba(240,184,110,0.6);
+  animation:boot-pulse 1.6s ease-in-out infinite;
+}
+@keyframes boot-pulse{
+  0%,100%{ opacity:0.45; transform:scale(0.92); }
+  50%{ opacity:1; transform:scale(1); }
+}
+.boot-label{
+  font-family:var(--font-body); font-weight:600; font-size:11.5px; letter-spacing:0.8px;
+  color:var(--text-dimmer);
+}
+
+.auth-screen{
+  position:fixed; inset:0; z-index:40;
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+}
+.auth-card{
+  width:100%; max-width:380px;
+  background:linear-gradient(165deg, var(--bg-panel), var(--bg-panel-2));
+  backdrop-filter:blur(18px) saturate(1.25);
+  -webkit-backdrop-filter:blur(18px) saturate(1.25);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 50px -20px rgba(10,6,20,0.7);
+  padding:34px 30px 28px;
+  position:relative;
+}
+.auth-card .panel-corner.tl{ top:14px; left:18px; }
+.auth-brand{ text-align:center; margin-bottom:26px; }
+.auth-brand .title{
+  font-family:var(--font-display); font-weight:700; font-size:26px; color:var(--text);
+  letter-spacing:0.2px;
+}
+.auth-brand .subtitle{
+  font-family:var(--font-script); font-size:16px; color:var(--text-dimmer); margin-top:2px;
+}
+.auth-field{ margin-bottom:16px; }
+.auth-field label{
+  display:block; font-family:var(--font-body); font-weight:600; font-size:10.5px;
+  letter-spacing:0.6px; color:var(--text-dimmer); margin-bottom:6px; text-transform:uppercase;
+}
+.auth-field input{
+  width:100%; background:var(--bg-raised); border:1px solid var(--border);
+  border-radius:9px; padding:10px 12px; color:var(--text);
+  font-family:var(--font-body); font-weight:600; font-size:13.5px;
+  outline:none; transition:border-color .18s ease;
+}
+.auth-field input:focus{ border-color:var(--border-bright); }
+.auth-submit{
+  width:100%; margin-top:6px;
+  background:var(--yellow); color:#231637; border:none;
+  font-family:var(--font-body); font-weight:700; font-size:13px; letter-spacing:0.3px;
+  padding:11px; border-radius:10px; cursor:pointer;
+  transition:filter .18s ease, opacity .18s ease;
+}
+.auth-submit:hover{ filter:brightness(1.06); }
+.auth-submit:disabled{ opacity:0.6; cursor:default; filter:none; }
+.auth-error{
+  margin-top:14px; padding:9px 12px; border-radius:9px;
+  background:rgba(232,138,134,0.12); border:1px solid rgba(232,138,134,0.35);
+  color:var(--red); font-family:var(--font-body); font-weight:600; font-size:11.5px;
+  line-height:1.4;
+}
+.auth-hint{
+  margin-top:18px; text-align:center;
+  font-family:var(--font-body); font-weight:600; font-size:10.5px; letter-spacing:0.3px;
+  color:var(--text-dimmer);
+}
+
+/* logout control, tucked next to the save/sync status pill in the header */
+.logout-btn{
+  display:inline-flex; align-items:center; gap:5px;
+  background:transparent; border:1px solid var(--border); color:var(--text-dimmer);
+  font-family:var(--font-body); font-weight:700; font-size:9.5px; letter-spacing:0.5px;
+  padding:5px 9px; border-radius:7px; cursor:pointer; margin-left:8px;
+  transition:all .18s ease;
+}
+.logout-btn:hover{ color:var(--red); border-color:rgba(232,138,134,0.4); }
+
+/* sync status pill states (drives the existing .status-pill element) */
+.status-pill.is-saving{ color:var(--yellow); }
+.status-pill.is-saving .blip{ background:var(--yellow); box-shadow:0 0 6px var(--yellow); }
+.status-pill.is-error{ color:var(--red); }
+.status-pill.is-error .blip{ background:var(--red); box-shadow:0 0 6px var(--red); }
+
+/* small inline banner used for migration progress / non-fatal sync errors */
+.sys-banner{
+  margin:0 0 14px; padding:10px 14px; border-radius:10px;
+  background:var(--bg-raised); border:1px solid var(--border);
+  font-family:var(--font-body); font-weight:600; font-size:11.5px; color:var(--text-dim);
+  display:flex; align-items:center; gap:8px;
+}
+.sys-banner.sys-error{ border-color:rgba(232,138,134,0.4); color:var(--red); }
+.sys-banner.sys-success{ border-color:rgba(147,198,160,0.4); color:var(--green); }
